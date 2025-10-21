@@ -1,0 +1,74 @@
+symptoms = ["anxiety", "depression", "stress", "sleep_issues", "mood_swings", "concentration", "social_withdrawal", "irritability", "fatigue", "panic"]
+severity_points = [3, 4, 2, 2, 3, 2, 3, 2, 2, 4]
+
+#dictionary with the element of symptoms as key and severity_points as value
+symptom_to_points = {
+  key:value
+  for key, value
+  in zip(symptoms, severity_points)
+}
+#add element with key of mindfulness and value of -1
+symptom_to_points["mindfulness"] = -1
+print(symptom_to_points)
+
+#SCORE A SESSION
+def score_session(session_symptoms):
+  severity_total = 0
+  for symptom in session_symptoms:
+    severity_total += symptom_to_points.get(symptom, 0)
+  return severity_total
+
+#test function
+'''
+test_session_score = score_session(["anxiety", "mindfulness", "depression"])
+print(test_session_score)
+'''
+
+user_to_symptoms = {
+  "sarah_m": [["anxiety", "stress"], ["depression", "fatigue"], ["mindfulness", "sleep_issues"]],
+  "alex_k": [["panic", "social_withdrawal"], ["anxiety", "concentration"], ["stress", "mindfulness"]],
+  "jordan_l": [["mood_swings", "irritability"], ["depression", "anxiety"], ["fatigue", "mindfulness"]],
+  "casey_r": [["stress", "sleep_issues"], ["panic", "social_withdrawal"], ["concentration", "mindfulness"]]
+}
+
+user_to_severity = {}
+for user, sessions in user_to_symptoms.items():
+    user_severity = 0
+    for session in sessions:
+        user_severity += score_session(session)
+    user_to_severity[user] = user_severity
+
+#this function takes three arguments to take a user and symptomto symptom history
+def log_symptom(user, symptom, user_to_symptoms):
+  """Logs a new symptom for a user as a new session."""
+  
+  # Check if the user exists. If not, create a new entry.
+  if user in user_to_symptoms:
+    # Get the user's session history (a list of lists)
+    sessions = user_to_symptoms.get(user)
+    # Add the new symptom as a new session (a list within the list)
+    sessions.append([symptom])
+  else:
+    # If the user is new, create their history with the first symptom
+    user_to_symptoms[user] = [[symptom]]
+
+#test the function
+'''
+log_symptom("alex_k", "irritability", user_to_symptoms)
+print(user_to_symptoms["alex_k"])
+  '''
+
+#scores a new symptom for a user as a new session
+def update_score(user_to_symptoms, symptom_to_points):
+  severity_total = 0
+  for symptom in user_to_symptoms:
+    severity_total += symptom_to_points.get(symptom, 0)
+  return severity_total
+
+update_score("sarah_m", "panic")
+print(update_score)
+
+#See results
+print("User severity scores:")
+for user, severity in user_to_severity.items():
+    print(f"{user}: {severity} points")
