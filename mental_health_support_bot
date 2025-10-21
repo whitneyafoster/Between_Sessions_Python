@@ -1,0 +1,78 @@
+# --- 1. DEFINE ALL HELPER FUNCTIONS (THE BOT'S "SKILLS") ---
+
+def print_message():
+  """Prints a generic error message for invalid input."""
+  print("\nI'm sorry, I did not understand your selection. Please try again.")
+
+def explore_emotions():
+  """Asks the user if they want a guided reflection."""
+  while True: # Loop until we get a valid answer ('a' or 'b')
+    res = input("\nWould you like to dive deeper with a guided reflection? \n[a] Yes, let's dive deeper. \n[b] No, I'm good for now.\n> ")
+    if res.lower() == 'a':
+      return "deep emotional exploration"
+    elif res.lower() == 'b':
+      return "basic emotional processing"
+    else:
+      print_message() # Ask again if the input is invalid
+
+def handle_crisis():
+  """Guides the user through crisis support options."""
+  while True:
+    res = input("\nI want to make sure you get the right support. Are you: \n[a] Having thoughts of self-harm \n[b] Feeling overwhelmed but safe \n[c] Need immediate professional help \n> ")
+    if res.lower() == 'a':
+      return "safety planning support"
+    elif res.lower() == 'b':
+      return "overwhelm management"
+    elif res.lower() == 'c':
+      return "emergency intervention"
+    else:
+      print_message()
+
+def get_support_type():
+  """Asks the user what kind of support they need."""
+  while True:
+    res = input("\nWhat kind of support do you need today? \n[a] Process emotions \n[b] Anxiety management \n[c] Crisis Support \n[d] General check in \n> ")
+    if res.lower() == "a":
+      return explore_emotions()
+    elif res.lower() == "b":
+      return "Anxiety management"
+    elif res.lower() == "c":
+      return handle_crisis()
+    elif res.lower() == "d":
+      return "General check in"
+    else:
+      print_message()
+
+def get_privacy_level():
+  """Asks the user for their desired privacy level."""
+  while True:
+    res = input("\nHow would you like your therapist to see this conversation? \n[a] Full access - they see everything \n[b] Summary only - general themes \n[c] Private - just between us \n> ")
+    if res.lower() == 'a':
+      return "Full access for your therapist"
+    elif res.lower() == 'b':
+      return "Summary only for your therapist"
+    elif res.lower() == 'c':
+      return "Private support"
+    else:
+      print_message()
+
+# --- 2. THE MAIN PROGRAM LOOP ---
+
+print("--- Welcome to BetweenSessions - Your AI Therapy Companion ---")
+while True:
+  # Call the functions to run one full session
+  support_type = get_support_type()
+  privacy_level = get_privacy_level()
+
+  print("\nAll right, I'm here to provide " + str(support_type) + " with " + str(privacy_level) + ".")
+  
+  name = input("What would you like me to call you today?\n> ")
+  print("\nThanks, " + str(name) + "! I am here to support you between your therapy sessions.")
+
+  # Ask the user if they want to quit or start a new session
+  quit_check = input("\nThis session is complete. Type 'quit' to exit, or press Enter to start a new session.\n> ")
+  if quit_check.lower() == 'quit':
+    print("\nExiting your session. Come back anytime!")
+    break # This command stops the while loop
+  else:
+    print("\n--- Starting a new session ---")
